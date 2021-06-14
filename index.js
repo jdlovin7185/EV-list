@@ -2,8 +2,15 @@ const express = require('express'),
   morgan = require('morgan');
 
 const app = express();
+const mongoose = require('mongoose');
+const Models = require('./model.js');
+
+const Cars = Models.Car;
+const Users = Models.User;
 
 app.use(morgan('common'));
+
+mongoose.connect('mongodb://localhost:27017/eletrics', {useNewUrlParser: true, useUnifiedTopology: true });
 
 
 app.get('/', (req, res) => {
@@ -50,8 +57,7 @@ app.post('/users', (req, res) => {
       .create({
         Username: req.body.Username,
         Password: req.body.Password,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday
+        Email: req.body.Email
       })
       .then((user) => {res.status(201).json(user) })
       .catch((error) => {
@@ -100,10 +106,10 @@ app.put('/users/:Username', (req, res) => {
   });
 });
 
-// Adds a player to the users favorite
+// Adds a car to the users favorite
 app.post('/users/:Username/inventory/:Make', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, 
-    { $push: { OwnedCar: req.params.CarID }},
+    { $push: { CarOwned: req.params.CarID }},
     { new: true },
     // This line makes sure that the updated document is returned
     (err, updatedUser) => {
