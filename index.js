@@ -10,8 +10,40 @@ const Users = Models.User;
 
 app.use(morgan('common'));
 
-mongoose.connect('mongodb://localhost:27017/eletrics', {useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://localhost:27017/eletrics', {useNewUrlParser: true, useUnifiedTopology: true });
 
+let carElectric = [ 
+  {
+  make : {
+		name : "Polestar",
+    model : "Polestar 1",
+		style : "Sedan"
+	},
+	specs : {
+		horsepower : 619,
+		range : 52,
+		connector : "None",
+		drivetrain : "2 rear axle electric machines + Crank ISG / 2-liter in-line 4-cyl. supercharged and turbocharged"
+	},
+	offRoad : false,
+	comingSoon : true
+  },
+  {
+    make : {
+      name : "Rivian",
+      model : "R1T",
+      style : "Truck"
+    },
+    specs : {
+      horsepower : 754,
+      range : "300+",
+      connector : "CCS",
+      drivetrain : "Quad Motor"
+    },
+    offRoad : true,
+    comingSoon : true
+  }
+]
 
 app.get('/', (req, res) => {
   res.send('Welcome!');
@@ -46,7 +78,7 @@ app.get('/offroad', (req, res) => {
   res.json('Nope');
 });
 
-// Creates a new user
+// Creates a new user - needs work
 app.post('/users', (req, res) => {
   Users.findOne({ Username: req.body.Username })
   .then((user) => {
@@ -84,7 +116,7 @@ app.get('/users/:Username', (req, res) => {
   });
 });
 
-// Updates user info
+// Updates user info - needs work
 app.put('/users/:Username', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username}, 
     { $set:
