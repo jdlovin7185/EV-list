@@ -4,7 +4,7 @@ let carSchema = mongoose.Schema({
   Make: {
     Name: {type: String, required: true},
     Model: {type: String, required: true},
-    Style: {type: String, required: true}
+    Style: {type: String}
   },
   Specs: {
     Horsepower: Number,
